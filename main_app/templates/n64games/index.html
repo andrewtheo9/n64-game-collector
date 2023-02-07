@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>N64 Games List</h1>
+
+{% for n64game in n64games %}
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">{{ n64game.title }}</span>
+      <p>Release Year: {{ n64game.releaseyear }}</p>
+      <p>Description: {{ n64game.description }}</p>
+      <p>Genre: {{ n64game.genre }}</p>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}
