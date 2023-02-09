@@ -1,17 +1,16 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
-<h1>N64 Games List</h1>
+<h1>Nintendo 64 Games List</h1>
 
 {% for n64game in n64games %}
+<a href="{% url 'detail' n64game.id %}">
   <div class="card">
     <div class="card-content">
       <span class="card-title">{{ n64game.title }}</span>
-      <p>Release Year: {{ n64game.releaseyear }}</p>
-      <p>Description: {{ n64game.description }}</p>
+      <p>Release Year: {{ n64game.year }}</p>
       <p>Genre: {{ n64game.genre }}</p>
+      <p>Description: {{ n64game.description }}</p>
     </div>
   </div>
-{% endfor %}
-
-{% endblock %}
+</a>
+{% endfor %} {% endblock %}
