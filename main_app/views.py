@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import N64game
+from .forms import SessionForm
 
 # Create your views here.
 
@@ -18,7 +19,8 @@ def n64games_index(request):
 
 def n64games_detail(request, n64game_id):
     n64game = N64game.objects.get(id=n64game_id)
-    return render(request, 'n64games/detail.html', { 'n64game': n64game})
+    session_form = SessionForm()
+    return render(request, 'n64games/detail.html', { 'n64game': n64game, 'session_form': session_form})
 
 class N64gameCreate(CreateView):
     model = N64game
@@ -32,3 +34,11 @@ class N64gameUpdate(UpdateView):
 class N64gameDelete(DeleteView):
     model = N64game
     success_url = '/n64games'
+
+def add_session(request, n64game_id):
+    form = SessionForm(request.POST)
+    if form.is_valid():
+        new_session = form.save(commit=False)
+        new_session.n64game_id = n64game_id
+        new_session.save()
+    return redirect('detail', n64game_id=n64game_id)

@@ -14,5 +14,41 @@
     <a href="{% url 'n64games_delete' n64game.id %}">Delete</a>
   </div>
 </div>
+<div class="col s6">
+    <form action="{% url 'add_session' n64game.id %}" method="POST">
+        {% csrf_token %}
+        {{ session_form.as_p }}
+        <input type="submit" class="btn" value="Add Play Session">
+      </form>
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Length of Play Session</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for session in n64game.session_set.all %}
+      <tr>
+        <td>{{session.date}}</td>
+        <td>{{session.get_hour_display}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script>
+  const dateEl = document.getElementById("id_date");
+  // M is Materialize's global variable
+  M.Datepicker.init(dateEl, {
+    format: "yyyy-mm-dd",
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true,
+  });
+
+  const selectEl = document.getElementById("id_hour");
+  M.FormSelect.init(selectEl);
+</script>
 
 {% endblock %}
