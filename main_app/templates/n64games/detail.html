@@ -37,6 +37,52 @@
     </tbody>
   </table>
 </div>
+<hr>
+<div class="row">
+  <div class="col s6">
+    <h3>{{ n64game.title }}'s Players</h3>
+    {% if n64game.playerss.count %}
+      {% for player in n64game.players.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              Player #{{ player.number }}: {{ player.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'remove_player' n64game.id player.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Remove</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No One Has Played This Game</h5>
+    {% endif %}
+  </div>
+  <div class="col s6">
+    <h3>Available Players</h3>
+    {% if players.count %}
+      {% for player in players.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              Player #{{ player.number }}: {{ player.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_player' n64game.id player.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{n64game.title}} Has All Players Available</h5>
+    {% endif %}
+  </div>
 <script>
   const dateEl = document.getElementById("id_date");
   // M is Materialize's global variable

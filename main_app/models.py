@@ -1,8 +1,6 @@
 from django.db import models
 from django.urls import reverse
 
-# Create your models here.
-
 HOURS = (
     ('1', '1 hour'),
     ('2', '2 hours'),
@@ -15,11 +13,25 @@ HOURS = (
     ('9', '9 hours'),
 )
 
+# Create your models here.
+
+class Player(models.Model):
+    number = models.IntegerField()
+    name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('players_detail', kwargs={'pk': self.id})
+
+
 class N64game(models.Model):
     title = models.CharField(max_length=50)
     year = models.IntegerField()
     genre = models.CharField(max_length=50)
     description = models.TextField(max_length=250)
+    players = models.ManyToManyField(Player)
 
     def __str__(self):
         return self.title
